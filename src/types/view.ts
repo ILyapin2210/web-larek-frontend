@@ -1,80 +1,49 @@
-import { ItemData } from "./models";
+import { TItemData } from "./models";
 
-export interface ModalView {
-  container: HTMLElement;
-  closeBtn: HTMLButtonElement;
-  content: HTMLElement;
+export interface IModalView<T extends HTMLElement = HTMLElement> {
+  container: T;
+  closeBtn: T;
+  content: T;
+  isOpened: boolean;
   open(): void;
   close(): void;
-  setContent(content: HTMLElement): void;
+  setContent<T extends HTMLElement>(content: T): void;
 }
 
-export interface Page {                             
-  galleryElement: HTMLElement;
+export interface IPage<T extends HTMLElement = HTMLElement> {                             
+  gallery: T;
   cartBtn: HTMLButtonElement;
-  cartCounter: HTMLSpanElement;
-  setCounter(amount: number): void;
-  setGallery(gallery: GalleryView): void;
+  basketCounter: number | string;
+  setCatalog(content: T[] | T): void;
 }
 
-export interface GalleryView {
-  gallery: HTMLElement;
-  render(items: CardView []): void;
-}
-
-export interface CardView {
+export interface ICard {
   ItemId: string;
-  cardTemplate: HTMLTemplateElement;
-  render(data: ItemData): HTMLElement;                       // вешает на карточку слушатель события, который по клику генерирует событие 'card: selected'
+  cardTemplate: HTMLTemplateElement;                      // вешает на карточку слушатель события, который по клику генерирует событие 'card: selected'
 }
 
-export interface ItemPreview {
-template: HTMLTemplateElement;
-render(data: ItemData): HTMLDivElement;                     // вешает на кнопку "В корзину" слушатель события по клику, генерирует событие  "item: added"
+export interface IBasketView<T extends HTMLElement = HTMLElement> {       // клик по кнопке генерирует событие 'basketView: proceed order';
+  list: T[] | T;
+  total: number;
+  basketBtn: HTMLButtonElement; 
 }
 
-export interface BasketView {                              // клик по кнопке генерирует событие 'basketView: proceed order';
-  basketTemplate: HTMLTemplateElement;
-  basketList: HTMLUListElement;
-  totalCounter: HTMLSpanElement;
-  setTotal (total: number) :void;
-  basketProceedButton: HTMLButtonElement;
-  render(items: BasketItemView[]): void;     
+export interface IOrderForm {
+  payment: string | undefined;
+  address: string;
+  clear(): void;
 }
 
-export interface BasketItemView {
-  basketItemTemplate: HTMLTemplateElement;
-  itemId: string | undefined;                               // может быть indefined пока не будет установлен при рендере
-  deleteItemBtn: HTMLButtonElement;                         // клик по кнопке генерирует событие 'basketItem: deleted' с id товара;
-  render(item: ItemData): HTMLElement;
-}
-
-export interface OrderFormView {
-  template: HTMLTemplateElement;
-  paymentOption: string;
-  orderButtonsContainer: HTMLDivElement;  
-  orderButtons: HTMLButtonElement [];
-  orderAddressInput: HTMLInputElement;
-  orderSubmit: HTMLButtonElement;       // при создании экземпляра на кнопку вешается обработчик клика, который генерирует событие 'orderForm: submit'
-  render() :HTMLFormElement
-  clear() :void;
-}
-
-export interface ContactFormView {
-  template: HTMLTemplateElement;
+export interface IContactForm {
   mail: string;
   phone: string;
   emailInput: HTMLInputElement;
   phoneInput: HTMLInputElement;
   sendBtn: HTMLButtonElement; // по клику заполняет соответсвующие свойства данными из форм и генерирует событие
                               // 'contactForm: submit'
-  render(): HTMLFormElement;
   clear() :void;
 }
 
-export interface SuccessView {
-  template: HTMLTemplateElement;
-  totalPriceElement: HTMLElement;
-  setTotal(total: number): void;
-  returnButton: HTMLButtonElement; // при создании экземпляра на кнопку вешается обработчик по клику, который генерирует событие 'modal: close'
+export interface ISuccess {
+  total: number;
 }

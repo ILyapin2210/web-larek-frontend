@@ -1,4 +1,4 @@
-export type ItemData = {
+export type TItemData = {
 	id: string;
 	description: string;
 	image: string;
@@ -7,23 +7,23 @@ export type ItemData = {
 	price: number;
 };
 
-export interface StoreModel {
-	items: ItemData[];
-	setItems(items: ItemData[]): void; // генерирует событие 'store: changed';
-	getItems(): ItemData[];
-	getItem(id: string): ItemData;
+export interface IStoreModel {
+	items: TItemData[];
+	getItem(id: string): TItemData;
 }
 
-export interface BasketModel {
-	items: string[]; // массив id товаров
-	getItemsCount(): number;
-	getItems(): string[];
+export type TBasketItem = 'string';
+
+export interface IBasketModel {
+	items: TBasketItem[]; // массив id товаров
+	count: number;
 	addItem(id: string): void;
 	removeItem(id: string): void;
-	clearBasket(): void;
+	isContain(id: string): boolean; // добавил просто на всякий случай, мне показалось, будет полезным в таком классе
+	clear(): void;
 }
 
-export type OrderData = {
+export type TOrderData = {
   payment: string,
   email: string,
   phone: string,
@@ -32,12 +32,17 @@ export type OrderData = {
   items: string[],
 }
 
-export interface OrderModel {
+export interface IOrderModel {
 	payment: string;
 	address: string;
 	email: string;
 	phone: string;
 	items: string[];
 	total: number;
-	getOrderData(): OrderData;
+	getOrderData(): TOrderData;
+}
+
+export type TOrderResult = {
+  id: string,
+  total: number,
 }
