@@ -7,8 +7,6 @@ import { Component } from '../base/Component';
 import { EventEmitter } from '../base/events';
 import { IContactForm } from '../../types/view';
 
-type TValidationEntry = { field: string; isValid: boolean };
-
 export class ContactForm extends Component<IContactForm> {
 	protected form: HTMLFormElement;
 	protected submitBtn: HTMLButtonElement;
@@ -60,7 +58,7 @@ export class ContactForm extends Component<IContactForm> {
 		this.setText(this.submitBtn, text);
 	}
 
-	checkValidation(): void {
+	protected checkValidation(): void {
 		this.setDisabled(
 			this.submitBtn,
 			Array.from(this.validationList.values()).some((isValid) => !isValid)
@@ -69,6 +67,7 @@ export class ContactForm extends Component<IContactForm> {
 
 	clear() {
 		this.form.reset();
+    this.setDisabled(this.submitBtn, true);
 		this.buttonText = 'Оплатить';
 	}
 }

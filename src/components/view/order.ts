@@ -83,5 +83,6 @@ export class OrderForm extends Component<IOrderForm> implements IOrderForm {
     this.optionsButtons.forEach((btn) => {
       btn.classList.remove('button_alt-active');
     });
+		this.setDisabled(this._submitBtn, true);
   }
 }
