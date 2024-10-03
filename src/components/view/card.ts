@@ -86,6 +86,8 @@ export class Card extends Component<TItemData> {
 
 	set category(tag: string) {
 		if (this._category) {
+
+			this._category.classList.remove('card__category_other');
 			switch (tag) {
 				case 'софт-скил':
 					this._category.classList.add(tagStyles.soft);
@@ -111,7 +113,10 @@ export class Card extends Component<TItemData> {
 
 	set price(price: number | null) {
 		if (this._price)
-			this._price.textContent = price === null ? 'Бесценно' : String(price); // костыль, куда без них
+			if(price === null) {
+				this.setText(this._price, 'Бесценно');
+				this.setDisabled(this._addToBasketBtn, true)
+			} else this.setText(this._price, `${price} синапсов`);
 	}
 
 	set itemIndex(index: number) {

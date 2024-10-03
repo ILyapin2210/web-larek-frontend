@@ -100,7 +100,7 @@ events.on('item: toBasket', (item: cardId) => {
 events.on('basket: changed', () => {
 	// Изменилась корзина
 	page.basketCounter = basket.count;
-})
+});
 
 events.on('basket: deleteItem', (item: cardId) => {
 	// товар удалён из корзины
@@ -149,11 +149,14 @@ events.on('order: makeOrder', () => {
 	order.total = getTotalPrice();
 	order.items = basket.items;
 	console.log(order.getOrderData());
-	api.makeOrder(order.getOrderData()).then((data) => {
-		success.total = data.total;
-		basket.clear();
-		modal.setContent(success.render());
-	});
+	api
+		.makeOrder(order.getOrderData())
+		.then((data) => {
+			success.total = data.total;
+			basket.clear();
+			modal.setContent(success.render());
+		})
+		.catch((err) => console.log(err ?? 'Что-то пошло не так'));
 });
 
 // берёт массив id товаров из корзины, по этим id получает массив объектов товаров из модели каталога и суммирует их стоимость
@@ -166,4 +169,7 @@ function getTotalPrice(): number {
 
 // инициализируем каталог
 
-api.getItems().then((res) => (store.items = res));
+api
+	.getItems()
+	.then((res) => (store.items = res))
+	.catch((err) => console.log(err ?? 'Что-то пошло не так'));

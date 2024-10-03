@@ -24,12 +24,10 @@ export class BasketView extends Component<IBasketView> {
 	}
 
 	set total(amount: number) {
+		if (amount === null) amount = 0;
 		amount === 0
 			? (this.basketBtn.disabled = true)
 			: (this.basketBtn.disabled = false);
-     // если в корзину набились "бесценные" товары, 
-     // то "проскакиваем" через проверку на 0 и не дезактивруем кнопку
-		if (amount === null) amount = 0;
 		this._total.textContent = `${amount} синапсов`;
 	}
 
